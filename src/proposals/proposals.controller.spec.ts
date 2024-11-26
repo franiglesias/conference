@@ -68,7 +68,7 @@ describe('ProposalsController', () => {
     expect(res.getHeader('Location')).toBe(`/proposals/${DUMMY_ID}`);
   });
 
-  it('should get all proposals that exists in the repository', async () => {
+  it('should get all proposals that exist in the repository', async () => {
     proposalRepository.create(
       '101JDM54WZC452N81R457S38HCV',
       'New visions on validation',
