@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { CreateProposalDto } from './CreateProposalDto';
 import { Proposal } from '../domain/Proposal';
 import { CreateProposalCommand } from '../application/CreateProposalCommand';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetAllProposalsQuery } from '../application/GetAllProposalsQuery';
 import { GetOneProposalQuery } from '../application/GetOneProposalQuery';
+import { Response } from 'express';
 
 @Controller('proposals')
 export class ProposalsController {
@@ -14,13 +15,20 @@ export class ProposalsController {
   ) {}
 
   @Post()
-  async create(@Body() createProposal: CreateProposalDto): Promise<void> {
+  async create(
+    @Body() createProposal: CreateProposalDto,
+    @Res() response: Response,
+  ): Promise<Response> {
     const command = new CreateProposalCommand(
       createProposal.title,
       createProposal.description,
       createProposal.author,
     );
-    await this.commandBus.execute(command);
+    const result = await this.commandBus.execute(command);
+    return response
+      .header('Location', `/proposals/${result}`)
+      .status(201)
+      .send();
   }
 
   @Get()
