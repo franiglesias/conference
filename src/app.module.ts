@@ -1,16 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProposalsController } from './proposals/ui/ProposalsController';
-import { PROPOSAL_REPOSITORY } from './proposals/domain/ProposalRepository';
-import { MemoryProposalRepository } from './proposals/infrastructure/MemoryProposalRepository';
+import { CqrsModule } from '@nestjs/cqrs';
+import { ProposalModule } from './proposals/ProposalModule';
 
 @Module({
-  imports: [],
-  controllers: [AppController, ProposalsController],
-  providers: [
-    AppService,
-    { provide: PROPOSAL_REPOSITORY, useClass: MemoryProposalRepository },
-  ],
+  imports: [CqrsModule, ProposalModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

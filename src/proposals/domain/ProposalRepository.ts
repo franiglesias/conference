@@ -1,9 +1,9 @@
 import { Proposal } from './Proposal';
 
 export interface ProposalRepository {
-  create(title: string, description: string, author: string): Proposal;
+  create(id: string, title: string, description: string, author: string): void;
 
-  retrieve(id: number): Proposal;
+  retrieve(id: string): Proposal;
 
   retrieveAll(): Proposal[];
 }

@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { Proposal } from '../domain/Proposal';
-import { PROPOSAL_REPOSITORY } from '../domain/ProposalRepository';
+import { ProposalRepository } from '../domain/ProposalRepository';
 
+// @Injectable() is a decorator that marks a class as available to be provided and injected as a dependency.
+// You can find MemoryProposalRepository in the providers array of the Module that uses it.
 @Injectable()
-export class MemoryProposalRepository implements PROPOSAL_REPOSITORY {
+export class MemoryProposalRepository implements ProposalRepository {
   private readonly proposals: Proposal[] = [];
-  private nextId = 1;
 
-  create(title: string, description: string, author: string): Proposal {
-    const id = this.nextId;
+  create(id: string, title: string, description: string, author: string): void {
     const proposal = new Proposal(id, title, description, author);
-    this.proposals.push(proposal);
-    this.nextId++;
-    return proposal;
+    this.store(proposal);
   }
 
-  retrieve(id: number): Proposal {
-    const found = this.proposals.find((proposal) => {
+  store(proposal: Proposal): void {
+    this.proposals.push(proposal);
+  }
+
+  retrieve(id: string): Proposal {
+    return this.proposals.find((proposal) => {
       return proposal.isIdentifiedBy(id);
     });
-
-    return found;
   }
 
   retrieveAll() {

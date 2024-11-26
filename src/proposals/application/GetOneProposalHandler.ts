@@ -1,15 +1,20 @@
-import { CommandHandler, IQueryHandler } from '@nestjs/cqrs';
-import { ProposalRepository } from '../domain/ProposalRepository';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import {
+  PROPOSAL_REPOSITORY,
+  ProposalRepository,
+} from '../domain/ProposalRepository';
 import { Proposal } from '../domain/Proposal';
 import { GetOneProposalQuery } from './GetOneProposalQuery';
+import { Inject } from '@nestjs/common';
 
-@CommandHandler(GetOneProposalQuery)
+@QueryHandler(GetOneProposalQuery)
 export class GetOneProposalHandler
   implements IQueryHandler<GetOneProposalQuery>
 {
-  constructor(private readonly proposals: ProposalRepository) {}
+  constructor(
+    @Inject(PROPOSAL_REPOSITORY) private readonly proposals: ProposalRepository,
+  ) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async execute(query: GetOneProposalQuery): Promise<Proposal> {
     return this.proposals.retrieve(query.id);
   }
