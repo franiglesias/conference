@@ -27,6 +27,8 @@ describe('ProposalsController', () => {
     })
       .overrideProvider(IDENTITY_SERVICE) // Specify the provider you want to replace
       .useValue(new PresetIdentityService(DUMMY_ID)) // Replace Provider with an instance in testing environment
+      .overrideProvider(PROPOSAL_REPOSITORY)
+      .useValue(new MemoryProposalRepository())
       .compile();
 
     // I think you should initialize the module to make sure that all the services are created
@@ -57,29 +59,39 @@ describe('ProposalsController', () => {
     const dto = {
       title: 'The dos a do nots of modern development',
       description: 'The do a do not of modern development',
-      author: 'fran@example.com',
+      author: 'Fran Iglesias',
+      email: 'fran@example.com',
+      event: 'super-event',
+      track: 'talks',
+      type: 'talk',
     } as CreateProposalDto;
     // Mock a Response object that can possible work with the controller
     const res = httpMocks.createResponse();
     await proposalController.create(dto, res);
     // Now, I can check in the backend repository to see is a proposal was created
-    expect(proposalRepository.retrieveAll()).toHaveLength(1);
+    expect(await proposalRepository.retrieveAll()).toHaveLength(1);
     // And I can check the response to see if the location header is set with the correct value
     expect(res.getHeader('Location')).toBe(`/proposals/${DUMMY_ID}`);
   });
 
   it('should get all proposals that exist in the repository', async () => {
-    proposalRepository.create(
+    await proposalRepository.create(
       '101JDM54WZC452N81R457S38HCV',
       'New visions on validation',
       'This is a proposal example of a talk',
+      'Fran Iglesias',
       'fran@example.com',
+      'super-event',
+      'workshops',
     );
-    proposalRepository.create(
+    await proposalRepository.create(
       '01JDM556R7ZTXHQVH3T87S460Z',
       'The future of the web',
       'This is a proposal example of a talk',
-      'pepe@example.com',
+      'Pepa Pérez',
+      'pepa@example.com',
+      'super-event',
+      'talks',
     );
 
     expect(await proposalController.findAll()).toHaveLength(2);

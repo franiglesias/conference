@@ -23,6 +23,9 @@ export class ProposalsController {
       createProposal.title,
       createProposal.description,
       createProposal.author,
+      createProposal.email,
+      createProposal.event,
+      createProposal.track,
     );
     const result = await this.commandBus.execute(command);
     return response

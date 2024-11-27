@@ -25,6 +25,9 @@ export class CreateProposalHandler
       command.title,
       command.description,
       command.author,
+      command.email,
+      command.event,
+      command.track,
     );
     return theId;
   }

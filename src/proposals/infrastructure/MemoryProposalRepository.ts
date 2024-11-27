@@ -8,8 +8,25 @@ import { ProposalRepository } from '../domain/ProposalRepository';
 export class MemoryProposalRepository implements ProposalRepository {
   private readonly proposals: Proposal[] = [];
 
-  create(id: string, title: string, description: string, author: string): void {
-    const proposal = new Proposal(id, title, description, author);
+  async create(
+    id: string,
+    title: string,
+    description: string,
+    author: string,
+    email: string,
+    event: string,
+    track: string,
+  ): Promise<void> {
+    const proposal = new Proposal(
+      id,
+      title,
+      description,
+      author,
+      email,
+      event,
+      track,
+      'TBD',
+    );
     this.store(proposal);
   }
 
@@ -17,13 +34,13 @@ export class MemoryProposalRepository implements ProposalRepository {
     this.proposals.push(proposal);
   }
 
-  retrieve(id: string): Proposal {
+  async retrieve(id: string): Promise<Proposal> {
     return this.proposals.find((proposal) => {
       return proposal.isIdentifiedBy(id);
     });
   }
 
-  retrieveAll() {
+  async retrieveAll(): Promise<Proposal[]> {
     return this.proposals;
   }
 }
