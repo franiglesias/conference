@@ -6,5 +6,6 @@ export class CreateProposalCommand {
     public readonly email: string,
     public readonly event: string,
     public readonly track: string,
+    public readonly type: string,
   ) {}
 }

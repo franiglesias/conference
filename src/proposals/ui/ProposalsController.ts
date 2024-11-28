@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { CreateProposalDto } from './CreateProposalDto';
-import { Proposal } from '../domain/Proposal';
+import { Proposal } from '../domain/Proposal/Proposal';
 import { CreateProposalCommand } from '../application/CreateProposalCommand';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetAllProposalsQuery } from '../application/GetAllProposalsQuery';
@@ -26,6 +26,7 @@ export class ProposalsController {
       createProposal.email,
       createProposal.event,
       createProposal.track,
+      createProposal.format,
     );
     const result = await this.commandBus.execute(command);
     return response

@@ -3,12 +3,13 @@ import { ProposalsController } from './ui/ProposalsController';
 
 import { MemoryProposalRepository } from './infrastructure/MemoryProposalRepository';
 import { CreateProposalDto } from './ui/CreateProposalDto';
-import { PROPOSAL_REPOSITORY } from './domain/ProposalRepository';
+import { PROPOSAL_REPOSITORY } from './domain/Proposal/ProposalRepository';
 import { IDENTITY_SERVICE } from './domain/IdentityService';
 
 import * as httpMocks from 'node-mocks-http';
 import { PresetIdentityService } from './infrastructure/PresetIdentityService';
 import { ProposalModule } from './ProposalModule';
+import { Proposal } from './domain/Proposal/Proposal';
 
 describe('ProposalsController', () => {
   let proposalController: ProposalsController;
@@ -63,7 +64,7 @@ describe('ProposalsController', () => {
       email: 'fran@example.com',
       event: 'super-event',
       track: 'talks',
-      type: 'talk',
+      format: 'talk',
     } as CreateProposalDto;
     // Mock a Response object that can possible work with the controller
     const res = httpMocks.createResponse();
@@ -75,16 +76,29 @@ describe('ProposalsController', () => {
   });
 
   it('should get all proposals that exist in the repository', async () => {
-    await proposalRepository.create(
+    await proposalRepository.store(ProposalMother.forWorkshop());
+    await proposalRepository.store(ProposalMother.forTalk());
+
+    expect(await proposalController.findAll()).toHaveLength(2);
+  });
+});
+
+class ProposalMother {
+  static forWorkshop(): Proposal {
+    return Proposal.receive(
       '101JDM54WZC452N81R457S38HCV',
       'New visions on validation',
-      'This is a proposal example of a talk',
+      'This is a proposal example of a workshop',
       'Fran Iglesias',
       'fran@example.com',
       'super-event',
       'workshops',
+      'workshop',
     );
-    await proposalRepository.create(
+  }
+
+  static forTalk(): Proposal {
+    return Proposal.receive(
       '01JDM556R7ZTXHQVH3T87S460Z',
       'The future of the web',
       'This is a proposal example of a talk',
@@ -92,8 +106,7 @@ describe('ProposalsController', () => {
       'pepa@example.com',
       'super-event',
       'talks',
+      'talk',
     );
-
-    expect(await proposalController.findAll()).toHaveLength(2);
-  });
-});
+  }
+}

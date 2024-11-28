@@ -3,7 +3,7 @@ export class CreateProposalDto {
   public readonly description: string;
   public readonly author: string;
   public readonly email: string;
-  public readonly type: string;
+  public readonly format: string;
   public readonly event: string;
   public readonly track: string;
 }

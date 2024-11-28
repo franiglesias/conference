@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateProposalHandler } from './application/CreateProposalHandler';
-import { PROPOSAL_REPOSITORY } from './domain/ProposalRepository';
+import { PROPOSAL_REPOSITORY } from './domain/Proposal/ProposalRepository';
 import { UlidIdentityService } from './infrastructure/UlidIdentityService';
 import { IDENTITY_SERVICE } from './domain/IdentityService';
 import { GetAllProposalsHandler } from './application/GetAllProposalsHandler';

@@ -3,8 +3,8 @@ import { GetAllProposalsQuery } from './GetAllProposalsQuery';
 import {
   PROPOSAL_REPOSITORY,
   ProposalRepository,
-} from '../domain/ProposalRepository';
-import { Proposal } from '../domain/Proposal';
+} from '../domain/Proposal/ProposalRepository';
+import { Proposal } from '../domain/Proposal/Proposal';
 import { Inject } from '@nestjs/common';
 
 @QueryHandler(GetAllProposalsQuery)
