@@ -22,7 +22,8 @@ export class ProposalsController {
     const command = new CreateProposalCommand(
       createProposal.title,
       createProposal.description,
-      createProposal.author,
+      createProposal.name,
+      createProposal.surname,
       createProposal.email,
       createProposal.event,
       createProposal.track,

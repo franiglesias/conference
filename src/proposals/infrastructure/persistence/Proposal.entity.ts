@@ -34,4 +34,10 @@ export class ProposalEntity {
 
   @Property()
   updated_at: Date;
+
+  @Property({ nullable: true })
+  name: string;
+
+  @Property({ nullable: true })
+  surname: string;
 }

@@ -9,6 +9,14 @@ export class AuthorName {
     this.surname = NotEmptyString(surname, 'Author name is mandatory');
   }
 
+  firstName(): string {
+    return this.name;
+  }
+
+  lastName(): string {
+    return this.surname;
+  }
+
   toString() {
     return `${this.name} ${this.surname}`;
   }
