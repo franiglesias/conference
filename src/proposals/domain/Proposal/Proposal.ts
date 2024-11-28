@@ -5,6 +5,8 @@ import { ProposalDescription } from './ProposalDescription';
 import { AuthorEmail } from './AuthorEmail';
 import { AuthorName } from './AuthorName';
 
+import { Populable } from '../Populable';
+
 export class Proposal {
   private readonly id: ProposalId;
   private readonly title: ProposalTitle;
@@ -106,5 +108,17 @@ export class Proposal {
       created_at: new Date(),
       updated_at: new Date(),
     };
+  }
+
+  mapTo(placeholder: Populable) {
+    const source = this.mapToRaw();
+    const result = {};
+    const keys = placeholder.toPopulate();
+    for (const key of keys) {
+      if (key in source) {
+        result[key] = source[key];
+      }
+    }
+    return result;
   }
 }
