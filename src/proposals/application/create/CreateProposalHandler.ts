@@ -4,9 +4,9 @@ import { Inject } from '@nestjs/common';
 import {
   PROPOSAL_REPOSITORY,
   ProposalRepository,
-} from '../domain/Proposal/ProposalRepository';
-import { IDENTITY_SERVICE, IdentityService } from '../domain/IdentityService';
-import { Proposal } from '../domain/Proposal/Proposal';
+} from '../../domain/Proposal/ProposalRepository';
+import { IDENTITY_SERVICE, IdentityService } from '../../domain/IdentityService';
+import { Proposal } from '../../domain/Proposal/Proposal';
 
 @CommandHandler(CreateProposalCommand)
 export class CreateProposalHandler

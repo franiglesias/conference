@@ -2,8 +2,8 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import {
   PROPOSAL_REPOSITORY,
   ProposalRepository,
-} from '../domain/Proposal/ProposalRepository';
-import { Proposal } from '../domain/Proposal/Proposal';
+} from '../../domain/Proposal/ProposalRepository';
+import { Proposal } from '../../domain/Proposal/Proposal';
 import { GetOneProposalQuery } from './GetOneProposalQuery';
 import { Inject } from '@nestjs/common';
 

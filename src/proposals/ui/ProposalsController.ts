@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { CreateProposalDto } from './CreateProposalDto';
 import { Proposal } from '../domain/Proposal/Proposal';
-import { CreateProposalCommand } from '../application/CreateProposalCommand';
+import { CreateProposalCommand } from '../application/create/CreateProposalCommand';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { GetAllProposalsQuery } from '../application/GetAllProposalsQuery';
-import { GetOneProposalQuery } from '../application/GetOneProposalQuery';
+import { GetAllProposalsQuery } from '../application/getAll/GetAllProposalsQuery';
+import { GetOneProposalQuery } from '../application/getOne/GetOneProposalQuery';
 import { Response } from 'express';
 
 @Controller('proposals')

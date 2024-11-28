@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { CreateProposalHandler } from './application/CreateProposalHandler';
+import { CreateProposalHandler } from './application/create/CreateProposalHandler';
 import { PROPOSAL_REPOSITORY } from './domain/Proposal/ProposalRepository';
 import { UlidIdentityService } from './infrastructure/UlidIdentityService';
 import { IDENTITY_SERVICE } from './domain/IdentityService';
-import { GetAllProposalsHandler } from './application/GetAllProposalsHandler';
-import { GetOneProposalQuery } from './application/GetOneProposalQuery';
+import { GetAllProposalsHandler } from './application/getAll/GetAllProposalsHandler';
+import { GetOneProposalQuery } from './application/getOne/GetOneProposalQuery';
 import { ProposalsController } from './ui/ProposalsController';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { SqliteProposalRepository } from './infrastructure/SqliteProposalRepository';
