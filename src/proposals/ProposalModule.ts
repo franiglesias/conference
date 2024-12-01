@@ -9,6 +9,8 @@ import { GetOneProposalQuery } from './application/getOne/GetOneProposalQuery';
 import { ProposalsController } from './ui/ProposalsController';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { SqliteProposalRepository } from './infrastructure/SqliteProposalRepository';
+import { READ_GET_ALL_PROPOSALS } from './application/getAll/ReadGetAllProposals';
+import { SqliteReadGetAllProposals } from './infrastructure/SqliteReadGetAllProposals';
 
 @Module({
   imports: [CqrsModule, MikroOrmModule.forFeature({})],
@@ -24,6 +26,10 @@ import { SqliteProposalRepository } from './infrastructure/SqliteProposalReposit
     {
       provide: IDENTITY_SERVICE,
       useClass: UlidIdentityService,
+    },
+    {
+      provide: READ_GET_ALL_PROPOSALS,
+      useClass: SqliteReadGetAllProposals,
     },
   ],
 })
