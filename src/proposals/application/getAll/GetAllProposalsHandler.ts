@@ -3,17 +3,17 @@ import { GetAllProposalsQuery } from './GetAllProposalsQuery';
 import { Inject } from '@nestjs/common';
 import { GetAllProposalsViewModel } from './GetAllProposalsViewModel';
 import {
-  READ_GET_ALL_PROPOSALS,
-  ReadGetAllProposals,
-} from './ReadGetAllProposals';
+  ALL_PROPOSALS,
+  AllProposals,
+} from './AllProposals';
 
 @QueryHandler(GetAllProposalsQuery)
 export class GetAllProposalsHandler
   implements IQueryHandler<GetAllProposalsQuery>
 {
   constructor(
-    @Inject(READ_GET_ALL_PROPOSALS)
-    private readonly proposals: ReadGetAllProposals,
+    @Inject(ALL_PROPOSALS)
+    private readonly proposals: AllProposals,
   ) {}
 
   async execute(

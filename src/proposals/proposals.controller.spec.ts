@@ -7,9 +7,33 @@ import { PROPOSAL_REPOSITORY } from './domain/Proposal/ProposalRepository';
 import { IDENTITY_SERVICE } from './domain/IdentityService';
 
 import * as httpMocks from 'node-mocks-http';
-import { PresetIdentityService } from './infrastructure/PresetIdentityService';
+import { PresetIdentityService } from './infrastructure/identity/PresetIdentityService';
 import { ProposalModule } from './ProposalModule';
-import { Proposal } from './domain/Proposal/Proposal';
+import { ALL_PROPOSALS, AllProposals } from './application/getAll/AllProposals';
+import { GetAllProposalsViewModel } from './application/getAll/GetAllProposalsViewModel';
+
+class StubbedAllProposals implements AllProposals {
+  private readonly proposals: GetAllProposalsViewModel[] = [];
+
+  constructor() {
+    this.proposals = [
+      {
+        id: '01JDM4S4RBX4QK3054YXT16V2X',
+        title: 'The dos a do nots of modern development',
+        author: 'Fran',
+      } as GetAllProposalsViewModel,
+      {
+        id: '01JDM4S4RBX4QK3054YXT16V2Y',
+        title: 'Another proposal',
+        author: 'Fran',
+      } as GetAllProposalsViewModel,
+    ];
+  }
+
+  async read(): Promise<GetAllProposalsViewModel[]> {
+    return this.proposals;
+  }
+}
 
 describe('ProposalsController', () => {
   let proposalController: ProposalsController;
@@ -30,6 +54,8 @@ describe('ProposalsController', () => {
       .useValue(new PresetIdentityService(DUMMY_ID)) // Replace Provider with an instance in testing environment
       .overrideProvider(PROPOSAL_REPOSITORY)
       .useValue(new MemoryProposalRepository())
+      .overrideProvider(ALL_PROPOSALS)
+      .useValue(new StubbedAllProposals())
       .compile();
 
     // I think you should initialize the module to make sure that all the services are created
@@ -77,39 +103,6 @@ describe('ProposalsController', () => {
   });
 
   it('should get all proposals that exist in the repository', async () => {
-    await proposalRepository.store(ProposalMother.forWorkshop());
-    await proposalRepository.store(ProposalMother.forTalk());
-
     expect(await proposalController.findAll()).toHaveLength(2);
   });
 });
-
-class ProposalMother {
-  static forWorkshop(): Proposal {
-    return Proposal.receive(
-      '101JDM54WZC452N81R457S38HCV',
-      'New visions on validation',
-      'This is a proposal example of a workshop',
-      'Fran',
-      'Iglesias',
-      'fran@example.com',
-      'super-event',
-      'workshops',
-      'workshop',
-    );
-  }
-
-  static forTalk(): Proposal {
-    return Proposal.receive(
-      '01JDM556R7ZTXHQVH3T87S460Z',
-      'The future of the web',
-      'This is a proposal example of a talk',
-      'Pepa',
-      'Pérez',
-      'pepa@example.com',
-      'super-event',
-      'talks',
-      'talk',
-    );
-  }
-}

@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateProposalHandler } from './application/create/CreateProposalHandler';
 import { PROPOSAL_REPOSITORY } from './domain/Proposal/ProposalRepository';
-import { UlidIdentityService } from './infrastructure/UlidIdentityService';
+import { UlidIdentityService } from './infrastructure/identity/UlidIdentityService';
 import { IDENTITY_SERVICE } from './domain/IdentityService';
 import { GetAllProposalsHandler } from './application/getAll/GetAllProposalsHandler';
 import { GetOneProposalQuery } from './application/getOne/GetOneProposalQuery';
 import { ProposalsController } from './ui/ProposalsController';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { SqliteProposalRepository } from './infrastructure/SqliteProposalRepository';
-import { READ_GET_ALL_PROPOSALS } from './application/getAll/ReadGetAllProposals';
+import { ALL_PROPOSALS } from './application/getAll/AllProposals';
 import { SqliteReadGetAllProposals } from './infrastructure/SqliteReadGetAllProposals';
 
 @Module({
@@ -28,7 +28,7 @@ import { SqliteReadGetAllProposals } from './infrastructure/SqliteReadGetAllProp
       useClass: UlidIdentityService,
     },
     {
-      provide: READ_GET_ALL_PROPOSALS,
+      provide: ALL_PROPOSALS,
       useClass: SqliteReadGetAllProposals,
     },
   ],
